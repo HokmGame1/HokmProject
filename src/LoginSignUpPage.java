@@ -150,7 +150,7 @@ public class LoginSignUpPage
         {
             showInfoDialog(frame, loginResult);
             frame.dispose();
-            //new RoomsPage().createAndShowGUI(usernameSTR);
+            new RoomsPage().createAndShowGUI(usernameSTR);
         }
     }
     private void showErrorDialog(JFrame frame, String message)

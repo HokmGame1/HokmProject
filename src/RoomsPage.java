@@ -123,32 +123,155 @@ public class RoomsPage {
         }
     }
 
-    private void showPlayerOptions(String username) {
-        JFrame optionFrame = new JFrame("Select Players");
-        optionFrame.setSize(300, 150);
+    public void showPlayerOptions(String username) {
+        JFrame optionFrame = new JFrame("Options");
+        optionFrame.setSize(400,430);
         optionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         optionFrame.setLocationRelativeTo(null);
         optionFrame.setResizable(false);
-        optionFrame.setLayout(new GridLayout(1, 2));
+        optionFrame.setLayout(null);
+        optionFrame.getContentPane().setBackground(Color.white);
 
-        JButton twoPlayerButton = new JButton("2 Players");
-        JButton fourPlayerButton = new JButton("4 Players");
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(null);
+        panel1.setBounds(49,52,303,50);
+        panel1.setBackground(Color.decode("#f0f0f0"));
 
-        configureButton(twoPlayerButton, "2 Players");
-        configureButton(fourPlayerButton, "4 Players");
+        JLabel roundTextLabel = new JLabel();
+        roundTextLabel.setText("Round : ");
+        roundTextLabel.setFont(new Font("Arial", Font.BOLD, 14 ));
+        roundTextLabel.setBounds(17,20,60,15);
+        panel1.add(roundTextLabel);
 
-        twoPlayerButton.addActionListener(e -> {
-            optionFrame.dispose();
-            createRoom(username, frame, 2);
+        JRadioButton round_3 = new JRadioButton();
+        round_3.setText("3");
+        round_3.setBounds(96,20,50,15);
+        panel1.add(round_3);
+
+        JRadioButton round_5 = new JRadioButton();
+        round_5.setText("5");
+        round_5.setBounds(96+74,20,50,15);
+        panel1.add(round_5);
+
+        JRadioButton round_7 = new JRadioButton();
+        round_7.setText("7");
+        round_7.setBounds(96+2*(74),20,50,15);
+        panel1.add(round_7);
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(round_3);
+        group.add(round_5);
+        group.add(round_7);
+
+        optionFrame.add(panel1);
+
+
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(null);
+        panel2.setBounds(49,116,303,50);
+        panel2.setBackground(Color.decode("#f0f0f0"));
+
+        JLabel playersTextLabel = new JLabel();
+        playersTextLabel.setText("Players : ");
+        playersTextLabel.setFont(new Font("Arial", Font.BOLD, 14 ));
+        playersTextLabel.setBounds(17,20,100,15);
+        panel2.add(playersTextLabel);
+
+        JRadioButton player_2 = new JRadioButton();
+        player_2.setText("2_player");
+        player_2.setBounds(106,20,100,15);
+        panel2.add(player_2);
+
+        JRadioButton player_4 = new JRadioButton();
+        player_4.setText("4_player");
+        player_4.setBounds(204,20,100,15);
+        panel2.add(player_4);
+
+        ButtonGroup group2 = new ButtonGroup();
+        group2.add(player_2);
+        group2.add(player_4);
+
+        optionFrame.add(panel2);
+
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(null);
+        panel3.setBounds(49,178,303,50);
+        panel3.setBackground(Color.decode("#f0f0f0"));
+
+        JLabel chatTextLabel = new JLabel();
+        chatTextLabel.setText("Chat : ");
+        chatTextLabel.setFont(new Font("Arial", Font.BOLD, 14 ));
+        chatTextLabel.setBounds(17,20,100,15);
+        panel3.add(chatTextLabel);
+
+        JRadioButton ON = new JRadioButton();
+        ON.setText("ON");
+        ON.setBounds(106 ,20,100,15);
+        panel3.add(ON);
+
+        JRadioButton OFF = new JRadioButton();
+        OFF.setText("OFF");
+        OFF.setBounds(204,20,100,15);
+        panel3.add(OFF);
+
+        ButtonGroup group3 = new ButtonGroup();
+        group3.add(ON);
+        group3.add(OFF);
+
+        optionFrame.add(panel3);
+
+        JPanel panel4 = new JPanel();
+        panel4.setLayout(null);
+        panel4.setBounds(49,242,303,50);
+        panel4.setBackground(Color.decode("#f0f0f0"));
+
+        JLabel RoomPasswordLabel = new JLabel();
+        RoomPasswordLabel.setText("Room Password : ");
+        RoomPasswordLabel.setFont(new Font("Arial", Font.BOLD, 14 ));
+        RoomPasswordLabel.setBounds(17,20,150,15);
+        panel4.add(RoomPasswordLabel);
+
+        JTextField roomPasswordTextField = new JTextField();
+        roomPasswordTextField.setBounds(163,12 ,112,26);
+        roomPasswordTextField.setColumns(10);
+        panel4.add(roomPasswordTextField);
+
+        optionFrame.add(panel4);
+
+        JButton cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 14 ));
+        cancelButton.setBackground(Color.black);
+        cancelButton.setBounds(49,320,144,30);
+        cancelButton.setForeground(Color.white);
+        cancelButton.setBorder(null);
+
+        optionFrame.add(cancelButton);
+
+        JButton OKButton = new JButton();
+        OKButton.setText("OK");
+        OKButton.setFont(new Font("Arial", Font.BOLD, 14 ));
+        OKButton.setBackground(Color.red);
+        OKButton.setBounds(206,320,144,30);
+        OKButton.setForeground(Color.white);
+        OKButton.setBorder(null);
+
+        optionFrame.add(OKButton);
+
+
+
+        OKButton.addActionListener(e -> {
+            if (player_2.isSelected())
+            {
+                optionFrame.dispose();
+                createRoom(username, frame, 2);
+            }
+            else if (player_4.isSelected())
+            {
+                optionFrame.dispose();
+                createRoom(username, frame, 4);
+            }
         });
-
-        fourPlayerButton.addActionListener(e -> {
-            optionFrame.dispose();
-            createRoom(username, frame, 4);
-        });
-
-        optionFrame.add(twoPlayerButton);
-        optionFrame.add(fourPlayerButton);
 
         optionFrame.setVisible(true);
     }
