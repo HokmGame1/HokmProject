@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginSignUpPage
 {
@@ -78,6 +76,9 @@ public class LoginSignUpPage
         addMouseListener(signUpButton, Color.decode("#ed0000"), Color.red);
         addMouseListener(loginButton, Color.decode("#262626"), Color.black);
 
+        signUpButton.addActionListener(e -> handleSignUp(username.getText(), password.getText(), frame));
+        loginButton.addActionListener(e -> handleLogin(username.getText(), password.getText(), frame));
+
 
         frame.setVisible(true);
     }
@@ -111,6 +112,46 @@ public class LoginSignUpPage
                 button.setForeground(Color.WHITE);
             }
         });
+    }
+    private void handleSignUp(String usernameSTR, String passwordSTR, JFrame frame)
+    {
+        if (usernameSTR.isEmpty() || passwordSTR.isEmpty())
+        {
+            showErrorDialog(frame, "You have not entered the " + (usernameSTR.isEmpty() ? "username" : "password") + "!");
+            return;
+        }
+        Users usersObj = new Users();
+        String registrationResult = usersObj.registerUser(usernameSTR, passwordSTR);
+        if (Objects.equals(registrationResult, "This username is taken!"))
+        {
+            showErrorDialog(frame, "This username is taken!");
+        }
+        else
+        {
+            showInfoDialog(frame, "Registration successful:) now login");
+        }
+    }
+
+    private void handleLogin(String usernameSTR, String passwordSTR, JFrame frame)
+    {
+        if (usernameSTR.isEmpty() || passwordSTR.isEmpty())
+        {
+            showErrorDialog(frame, "You have not entered the " + (usernameSTR.isEmpty() ? "username" : "password") + "!");
+            return;
+        }
+
+        Users usersObj = new Users();
+        String loginResult = usersObj.loginUser(usernameSTR, passwordSTR);
+        if (Objects.equals(loginResult, "username or password is incorrect!"))
+        {
+            showErrorDialog(frame, "username or password is incorrect!");
+        }
+        else
+        {
+            showInfoDialog(frame, loginResult);
+            frame.dispose();
+            //new RoomsPage().createAndShowGUI(usernameSTR);
+        }
     }
     private void showErrorDialog(JFrame frame, String message)
     {
