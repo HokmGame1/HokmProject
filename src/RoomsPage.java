@@ -288,7 +288,7 @@ public class RoomsPage {
             if (response.startsWith("ROOM_CREATED")) {
                 JOptionPane.showMessageDialog(null, "Room created successfully!");
                 frame.dispose();
-                new RoomView(username, username);
+                new RoomView(username, username,maxPlayers);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to create room! Response: " + response);
             }
@@ -327,7 +327,7 @@ public class RoomsPage {
             joinRoomButton.addActionListener(e -> {
 
                 frame.dispose();
-                new RoomView(username, room.getCreator());
+                new RoomView(username, room.getCreator(),room.getMaxPlayers());
             });
         }
 
