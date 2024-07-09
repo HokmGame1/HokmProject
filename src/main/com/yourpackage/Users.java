@@ -1,4 +1,4 @@
-package src;
+package com.yourpackage;
 
 import java.io.*;
 import java.util.Objects;
