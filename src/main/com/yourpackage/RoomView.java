@@ -1,4 +1,4 @@
-package src;
+package com.yourpackage;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

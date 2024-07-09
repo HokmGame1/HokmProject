@@ -1,15 +1,17 @@
-package src;
+package com.yourpackage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class LoginSignUpPage
-{
-    public void createAndShowGUI()
-    {
+public class LoginSignUpPage {
+    private static final Logger LOGGER = Logger.getLogger(LoginSignUpPage.class.getName());
+
+    public void createAndShowGUI() {
         JFrame frame = new JFrame();
         frame.setTitle("Hokm Game Login/Sign up page");
         frame.setSize(400, 320);
@@ -23,17 +25,14 @@ public class LoginSignUpPage
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel imageLabel = new JLabel();
-        try
-        {
+        try {
             ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/data/HOKM3.png")));
             imageLabel.setIcon(imageIcon);
-        }
-        catch (NullPointerException e)
-        {
-            JOptionPane.showMessageDialog(frame, "Image not found: /data/HOKM3.png", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        catch (Exception e)
-        {
+        } catch (NullPointerException e) {
+            LOGGER.log(Level.SEVERE, "Image resource not found: /assets/HOKM3.png", e);
+            JOptionPane.showMessageDialog(frame, "Image not found: /assets/HOKM3.png", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected error occurred while loading image: /assets/HOKM3.png", e);
             JOptionPane.showMessageDialog(frame, "Unexpected error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         gbc.gridx = 0;
@@ -79,12 +78,10 @@ public class LoginSignUpPage
         signUpButton.addActionListener(e -> handleSignUp(username.getText(), password.getText(), frame));
         loginButton.addActionListener(e -> handleLogin(username.getText(), password.getText(), frame));
 
-
         frame.setVisible(true);
     }
 
-    private void configureButton(JButton button, Color bgColor)
-    {
+    private void configureButton(JButton button, Color bgColor) {
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setBackground(bgColor);
         button.setForeground(Color.white);
@@ -92,74 +89,56 @@ public class LoginSignUpPage
         button.setPreferredSize(new Dimension(120, 30));
     }
 
-    private void addMouseListener(JButton button, Color hoverColor, Color originalColor)
-    {
-
-        button.addMouseListener(new MouseAdapter()
-        {
-
-            public void mouseEntered(MouseEvent evt)
-            {
-
+    private void addMouseListener(JButton button, Color hoverColor, Color originalColor) {
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 button.setBackground(hoverColor);
                 button.setForeground(Color.WHITE);
             }
 
-            public void mouseExited(MouseEvent evt)
-            {
-
+            public void mouseExited(MouseEvent evt) {
                 button.setBackground(originalColor);
                 button.setForeground(Color.WHITE);
             }
         });
     }
-    private void handleSignUp(String usernameSTR, String passwordSTR, JFrame frame)
-    {
-        if (usernameSTR.isEmpty() || passwordSTR.isEmpty())
-        {
+
+    private void handleSignUp(String usernameSTR, String passwordSTR, JFrame frame) {
+        if (usernameSTR.isEmpty() || passwordSTR.isEmpty()) {
             showErrorDialog(frame, "You have not entered the " + (usernameSTR.isEmpty() ? "username" : "password") + "!");
             return;
         }
-        Users usersObj = new Users();
+        com.yourpackage.Users usersObj = new com.yourpackage.Users();
         String registrationResult = usersObj.registerUser(usernameSTR, passwordSTR);
-        if (Objects.equals(registrationResult, "This username is taken!"))
-        {
+        if (Objects.equals(registrationResult, "This username is taken!")) {
             showErrorDialog(frame, "This username is taken!");
-        }
-        else
-        {
+        } else {
             showInfoDialog(frame, "Registration successful:) now login");
         }
     }
 
-    private void handleLogin(String usernameSTR, String passwordSTR, JFrame frame)
-    {
-        if (usernameSTR.isEmpty() || passwordSTR.isEmpty())
-        {
+    private void handleLogin(String usernameSTR, String passwordSTR, JFrame frame) {
+        if (usernameSTR.isEmpty() || passwordSTR.isEmpty()) {
             showErrorDialog(frame, "You have not entered the " + (usernameSTR.isEmpty() ? "username" : "password") + "!");
             return;
         }
 
-        Users usersObj = new Users();
+        com.yourpackage.Users usersObj = new com.yourpackage.Users();
         String loginResult = usersObj.loginUser(usernameSTR, passwordSTR);
-        if (Objects.equals(loginResult, "username or password is incorrect!"))
-        {
+        if (Objects.equals(loginResult, "username or password is incorrect!")) {
             showErrorDialog(frame, "username or password is incorrect!");
-        }
-        else
-        {
+        } else {
             showInfoDialog(frame, loginResult);
             frame.dispose();
             new RoomsPage().createAndShowGUI(usernameSTR);
         }
     }
-    private void showErrorDialog(JFrame frame, String message)
-    {
+
+    private void showErrorDialog(JFrame frame, String message) {
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void showInfoDialog(JFrame frame, String message)
-    {
+    private void showInfoDialog(JFrame frame, String message) {
         JOptionPane.showMessageDialog(frame, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 }
